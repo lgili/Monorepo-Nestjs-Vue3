@@ -1,2 +1,81 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+/* ─────────────────────────────────────────────────────
+   Custom “mylight” theme – clean white/nav-light look
+   ───────────────────────────────────────────────────── */
+   @plugin "daisyui/theme" {
+    name: "light";
+  
+    /* backgrounds */
+    --color-base-100: #ffffff;  /* panels, cards, nav */
+    --color-base-200: #f9fafb;  /* section backgrounds */
+    --color-base-300: #f3f4f6;  /* hover, borders */
+    --color-neutral:  #f3f4f6;  /* sidebars */
+  
+    /* text */
+    --color-base-content:   #1f2937; /* primary text */
+    --color-secondary-content: #6b7280; /* secondary text */
+    
+    /* primary / accents */
+    --color-primary:       #2563eb; /* blue buttons and highlights */
+    --color-primary-content: #ffffff;
+    --color-secondary:     #64748b; /* nav icons, sub-labels */
+    --color-secondary-content: #ffffff;
+    --color-accent:        #e5e7eb; /* form backgrounds, cards */
+    --color-accent-content: #1f2937;
+  
+    /* status colors */
+    --color-info:    #3b82f6;
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-error:   #ef4444;
+  
+    /* border radius + sizing */
+    --radius-selector: 1rem;
+    --radius-field:    0.25rem;
+    --radius-box:      0.5rem;
+    --border:          1px;
+    --depth:           1;
+    --noise:           0;
+  }
+  
+  /* ─────────────────────────────────────────────────────
+     Custom “mydark” theme – deep charcoal/nav-dark look
+     ───────────────────────────────────────────────────── */
+  @plugin "daisyui/theme" {
+    name: "dark";
+  
+    /* backgrounds */
+    --color-base-100: #111827;  /* main panels, nav */
+    --color-base-200: #1f2937;  /* section bg */
+    --color-base-300: #374151;  /* hover, borders */
+    --color-neutral:  #1e293b;  /* sidebars */
+  
+    /* text */
+    --color-base-content:   #e5e7eb; /* primary text */
+    --color-secondary-content: #94a3b8; /* secondary text */
+  
+    /* primary / accents */
+    --color-primary:         #60a5fa;
+    --color-primary-content: #111827;
+    --color-secondary:       #94a3b8;
+    --color-secondary-content: #111827;
+    --color-accent:          #475569;
+    --color-accent-content:  #e5e7eb;
+  
+    /* status colors */
+    --color-info:    #93c5fd;
+    --color-success: #34d399;
+    --color-warning: #fbbf24;
+    --color-error:   #f87171;
+  
+    /* border radius + sizing */
+    --radius-selector: 1rem;
+    --radius-field:    0.25rem;
+    --radius-box:      0.5rem;
+    --border:          1px;
+    --depth:           1;
+    --noise:           0;
+  }

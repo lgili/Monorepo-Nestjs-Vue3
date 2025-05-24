@@ -25,6 +25,10 @@
             <p class="text-sm opacity-80 text-center">
               Enter your email and we'll send you a link to reset your password.
             </p>
+            <!-- error -->
+            <p v-if="error" class="text-error text-center">{{ error }}</p>
+            <!-- success -->
+            <p v-if="success" class="text-success text-center">{{ success }}</p>
 
             <form @submit.prevent="onSubmit" class="space-y-4">
               <!-- Email input -->
@@ -75,13 +79,14 @@ import { Mail } from 'lucide-vue-next'
 const email = ref('')
 const router = useRouter()
 const error = ref('')
+const success = ref('')
 
 async function onSubmit() {
   error.value = ''
+  success.value = ''
   try {
     await axios.post('http://localhost:3000/auth/forgot-password', { email: email.value })
-    // Optionally: show a success message or redirect
-    router.push({ name: 'Login' })
+    success.value = 'If that email is in our system, you’ll receive a reset link shortly.'
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Failed to send reset link'
   }

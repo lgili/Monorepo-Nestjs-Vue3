@@ -25,7 +25,7 @@
               <p class="text-sm opacity-80 text-center">
                 Seamless Access, Secure Connection: Your Gateway to a Personalized Experience.
               </p>
-  
+              <p v-if="error" class="text-error text-center">{{ error }}</p>
               <form @submit.prevent="onSubmit" class="space-y-4">
                 <!-- Email -->
                 <div class="form-control">
@@ -71,7 +71,7 @@
                     </button>
                   </div>
                   <label class="label">
-                    <a href="#" class="label-text-alt link link-hover text-sm">Forgot Password?</a>
+                    <router-link to="/forgot-password" class="link link-hover text-sm">Forgot Password?</router-link>
                   </label>
                 </div>
   
@@ -133,23 +133,19 @@
   const router = useRouter()
   
   async function onSubmit() {
-    error.value = ''
-    if (!agree.value) {
-      error.value = 'You must agree to the terms.'
-      return
-    }
-    try {
-      const res = await axios.post(
-        'http://localhost:3000/auth/login',
-        { email: email.value, password: password.value },
-        { withCredentials: true }
-      )
-      localStorage.setItem('accessToken', res.data.accessToken)
-      router.push({ name: 'Dashboard' })
-    } catch (err: any) {
-      error.value = err.response?.data?.message || 'Login failed'
-    }
+  error.value = ''
+  if (!agree.value) {
+    error.value = 'You must agree to the terms.'
+    return
   }
+  try {
+    const res = await axios.post('http://localhost:3000/auth/login', { email: email.value, password: password.value }, { withCredentials: true })
+    localStorage.setItem('accessToken', res.data.accessToken)
+    router.push({ name: 'Dashboard' })
+  } catch (err: any) {
+    error.value = err.response?.data?.message || 'Login failed'
+  }
+}
   
   function onGoogle() {
     // redirect to your OAuth endpoint

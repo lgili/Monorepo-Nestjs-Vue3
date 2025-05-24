@@ -25,7 +25,8 @@
             <p class="text-sm opacity-80 text-center">
               Enter your new password below.
             </p>
-
+            <p v-if="error" class="text-error text-center">{{ error }}</p>
+            <p v-if="success" class="text-success text-center">{{ success }}</p>
             <form @submit.prevent="onSubmit" class="space-y-4">
               <!-- New Password -->
               <div class="form-control">
@@ -125,27 +126,33 @@ const route = useRoute()
 const password = ref('')
 const confirmPassword = ref('')
 const agree = ref(false)
-const showPassword = ref(false)
-const showConfirm = ref(false)
+const show1 = ref(false)
+const show2 = ref(false)
 const error = ref('')
+const success = ref('')
 
 // token from query string
 const token = route.query.token as string || ''
 
+
+
 async function onSubmit() {
   error.value = ''
+  success.value = ''
   if (password.value !== confirmPassword.value) {
     error.value = 'Passwords do not match.'
     return
   }
+  if (!agree.value) {
+    error.value = 'You must agree to the terms.'
+    return
+  }
   try {
-    await axios.post('http://localhost:3000/auth/reset-password', {
-      token,
-      password: password.value
-    })
-    router.push({ name: 'Login' })
+    await axios.post('http://localhost:3000/auth/reset-password', { token, newPassword: password.value })
+    success.value = 'Password changed successfully.'
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Reset failed'
   }
 }
 </script>
+
