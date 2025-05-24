@@ -77,16 +77,16 @@
   
                 <!-- Terms checkbox -->
                 <div class="form-control">
-                  <label class="cursor-pointer label">
+                  <!-- <label class="cursor-pointer label">
                     <input type="checkbox" v-model="agree" class="checkbox checkbox-primary" />
                     <span class="label-text ml-2 text-sm">
                       I agree with <a href="#" class="link link-primary">terms and conditions</a>
                     </span>
-                  </label>
+                  </label> -->
                 </div>
   
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary w-full" :disabled="!agree">
+                <button type="submit" class="btn btn-primary w-full">
                   Login
                 </button>
   
@@ -118,31 +118,33 @@
   </template>
   
   <script setup lang="ts">
-  import { ref } from 'vue'
-  import axios from 'axios'
-  import { useRouter } from 'vue-router'
-  import ThemePicker from '@/components/ThemePicker.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+   import ThemePicker from '@/components/ThemePicker.vue'
   import { Mail, Lock, Eye, EyeOff, Globe } from 'lucide-vue-next'
   
   const email = ref('')
   const password = ref('')
-  const agree = ref(false)
+  // const agree = ref(false)
   const show = ref(false)
   const error = ref('')
   
   const router = useRouter()
+  const auth = useAuthStore()
   
   async function onSubmit() {
   error.value = ''
-  if (!agree.value) {
-    error.value = 'You must agree to the terms.'
-    return
-  }
+  // if (!agree.value) {
+  //   error.value = 'You must agree to the terms.'
+  //   return
+  // }
   try {
-    const res = await axios.post('http://localhost:3000/auth/login', { email: email.value, password: password.value }, { withCredentials: true })
-    localStorage.setItem('accessToken', res.data.accessToken)
-    router.push({ name: 'Dashboard' })
+    await auth.login(email.value, password.value)
+    router.push({ name: 'Overview' })
   } catch (err: any) {
+    console.log(err)
     error.value = err.response?.data?.message || 'Login failed'
   }
 }

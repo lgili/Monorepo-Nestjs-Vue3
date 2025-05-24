@@ -71,13 +71,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
+
+import { useAuthStore } from '@/stores/auth'
+
 import ThemePicker from '../components/ThemePicker.vue'
 import { Mail } from 'lucide-vue-next'
 
+
+const auth = useAuthStore()
+
 const email = ref('')
-const router = useRouter()
 const error = ref('')
 const success = ref('')
 
@@ -85,7 +88,7 @@ async function onSubmit() {
   error.value = ''
   success.value = ''
   try {
-    await axios.post('http://localhost:3000/auth/forgot-password', { email: email.value })
+    await auth.forgotPassword(email.value)
     success.value = 'If that email is in our system, you’ll receive a reset link shortly.'
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Failed to send reset link'

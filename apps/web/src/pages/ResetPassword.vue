@@ -114,13 +114,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
+import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import ThemePicker from '../components/ThemePicker.vue'
 import { Lock, Eye, EyeOff } from 'lucide-vue-next'
 
-const router = useRouter()
+
 const route = useRoute()
+const auth = useAuthStore()
 
 // form state
 const password = ref('')
@@ -148,7 +149,7 @@ async function onSubmit() {
     return
   }
   try {
-    await axios.post('http://localhost:3000/auth/reset-password', { token, newPassword: password.value })
+    await auth.resetPassword(token, password.value)
     success.value = 'Password changed successfully.'
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Reset failed'

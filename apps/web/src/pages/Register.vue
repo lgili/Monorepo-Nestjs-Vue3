@@ -142,12 +142,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import ThemePicker from '../components/ThemePicker.vue'
 import { Mail, Lock, Eye, EyeOff, User, Globe } from 'lucide-vue-next'
 
 const router = useRouter()
+const auth = useAuthStore()
 
 const firstName = ref('')
 const lastName = ref('')
@@ -165,17 +166,13 @@ async function onSubmit() {
         return
     }
     try {
-        await axios.post(
-            'http://localhost:3000/auth/register',
-            {
+        await auth.register({
                 firstName: firstName.value,
                 lastName: lastName.value,
                 username: username.value,
                 email: email.value,
                 password: password.value
-            },
-            { withCredentials: true }
-        )
+            })
         // success → go to login
         router.push({ name: 'Login' })
     } catch (err: any) {
